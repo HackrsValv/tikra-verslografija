@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Žodynėlis — CAC / LTV operatoriaus vadovas</title>
+<meta name="description" content="CAC/LTV vadovo terminų žodynėlis: CAC, LTV, churn, atsipirkimas, bendra konversija, TTFV, sprendimo vartai ir daugiau — kiekvienas su nuoroda į skyrių.">
+<meta property="og:title" content="Žodynėlis — CAC / LTV operatoriaus vadovas">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tikra.verslografija.lt/lt/zodynelis/">
+<link rel="canonical" href="https://tikra.verslografija.lt/lt/zodynelis/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#faf9f5; --paper-soft:#f5f4ef; --ink:#1c1917; --muted:#57534e; --faint:#a8a29e;
+  --rule:rgba(28,25,23,.1); --rule-strong:rgba(28,25,23,.16);
+  --accent:#b8432f; --accent-soft:rgba(184,67,47,.06); --accent-border:rgba(184,67,47,.35);
+  --green:#2d6a4f; --amber:#9e6c00; --blue:#1d4e89; --purple:#7c3aed;
+  --blue-bg:rgba(29,78,137,.06); --amber-bg:rgba(158,108,0,.07); --purple-bg:rgba(124,58,237,.06);
+  --serif:"Crimson Pro",Georgia,"Times New Roman",serif;
+  --mono:"DM Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --pad:clamp(20px,5vw,32px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;text-wrap:pretty;font-variant-ligatures:common-ligatures}
+@media(min-width:640px){body{font-size:16px}}
+.container{max-width:960px;margin-inline:auto;padding-inline:var(--pad)}
+::selection{background:rgba(184,67,47,.18)}
+a{color:inherit}
+.mono{font-family:var(--mono)}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ---------- nav ---------- */
+.top-nav{position:sticky;top:0;z-index:50;background:rgba(250,249,245,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+.nav-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;padding-block:14px}
+.nav-brand{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;text-decoration:none;color:var(--ink);white-space:nowrap}
+.nav-brand:hover{color:var(--accent)}
+.nav-links{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px}
+@media(max-width:480px){.nav-links{gap:12px}.btn{padding:10px 14px}}
+.nav-link{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.nav-link:hover{color:var(--ink)}
+.nav-lang{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em}
+.nav-lang a{color:var(--faint);text-decoration:none}
+.nav-lang a[aria-current]{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.nav-cta-hide{display:none}
+@media(min-width:640px){.nav-cta-hide{display:inline-flex}}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--mono);font-size:13px;letter-spacing:.05em;text-decoration:none;border-radius:5px;padding:11px 18px;border:1px solid transparent;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,color .15s ease;white-space:nowrap}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn-primary{background:var(--ink);color:var(--paper)}
+.btn-primary:hover{background:#292524}
+.btn-secondary{border-color:var(--rule-strong);background:transparent;color:var(--ink)}
+.btn-secondary:hover{border-color:rgba(28,25,23,.32);background:rgba(28,25,23,.04)}
+.btn-dark{background:var(--paper);color:var(--ink)}
+.btn-dark:hover{background:#fff}
+.btn-soft{background:rgba(28,25,23,.07);color:var(--ink)}
+.btn-soft:hover{background:rgba(28,25,23,.12)}
+.min-touch{position:relative}
+.min-touch::after{content:"";position:absolute;top:50%;left:50%;width:max(100%,3rem);height:max(100%,3rem);transform:translate(-50%,-50%)}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(48px,8vw,84px) clamp(36px,5vw,56px)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1{font-size:clamp(32px,5.2vw,46px);line-height:1.12;font-weight:600;letter-spacing:-.02em;text-wrap:pretty;max-width:24ch}
+.ver{display:inline-block;vertical-align:middle;margin-left:10px;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.08em;background:var(--ink);color:var(--paper);padding:4px 9px;border-radius:3px;transform:translateY(-4px)}
+.hero-sub{font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:var(--muted);margin-top:18px;font-variant-numeric:tabular-nums}
+
+/* ---------- sections ---------- */
+section{padding-block:44px}
+section + section{border-top:1px solid var(--rule)}
+h2{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+h2 .num{font-family:var(--mono);font-size:13px;letter-spacing:.1em;color:var(--accent);flex:none}
+h2 .t{font-family:var(--serif);font-size:clamp(21px,2.6vw,25px);font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+h3{font-size:19px;font-weight:600;margin:30px 0 10px;text-wrap:balance}
+p{margin-bottom:14px}
+.lead{font-size:clamp(18px,2.2vw,20px);line-height:1.6;color:var(--ink);font-weight:400}
+.note{font-size:15px;color:var(--muted);font-style:italic;margin-top:8px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.strong-p{font-size:clamp(18px,2.4vw,21px);font-weight:500;letter-spacing:-.01em;line-height:1.45}
+
+/* ---------- definition list ---------- */
+.defs>div{display:grid;grid-template-columns:minmax(110px,190px) 1fr;gap:4px 24px;padding:16px 0;border-top:1px solid var(--rule)}
+.defs>div:first-child{border-top:0;padding-top:4px}
+.defs dt{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--blue);padding-top:3px}
+.defs dd{font-size:16.5px}
+.defs dd .formula-inline{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums}
+@media(max-width:560px){.defs>div{grid-template-columns:1fr}.defs dt{padding-top:0;margin-bottom:2px}}
+
+/* ---------- formula blocks ---------- */
+.formula{background:var(--ink);color:var(--paper);border-radius:6px;padding:18px 22px;margin:18px 0;font-family:var(--mono);font-size:15px;text-align:center;font-variant-numeric:tabular-nums}
+.formula .label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9c978f;margin-bottom:8px;text-align:center}
+.formula-triple{display:grid;grid-template-columns:1fr;gap:14px;margin:18px 0}
+@media(min-width:640px){.formula-triple{grid-template-columns:repeat(3,1fr)}}
+.formula-sm{background:var(--ink);color:var(--paper);border-radius:6px;padding:16px 18px;text-align:center;font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
+.formula-sm .label{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#9c978f;margin-bottom:8px}
+
+/* ---------- annotations ---------- */
+.annot{border-left:3px solid var(--blue);background:var(--blue-bg);border-radius:0 6px 6px 0;padding:14px 18px;margin:18px 0;font-size:15.5px;color:var(--muted)}
+.annot strong{color:var(--ink);font-weight:600}
+.annot.warn{border-color:var(--accent);background:var(--accent-soft)}
+.annot.correction{border-color:var(--amber);background:var(--amber-bg)}
+.annot.cash{border-color:var(--purple);background:var(--purple-bg)}
+.annot .annot-label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+
+/* ---------- ltv compare ---------- */
+.ltv-compare{display:grid;grid-template-columns:1fr;gap:14px;margin:22px 0}
+@media(min-width:640px){.ltv-compare{grid-template-columns:1fr 1fr}}
+.ltv-box{border:1px solid var(--rule-strong);border-radius:8px;padding:22px}
+.ltv-box.margin{border-color:var(--accent-border);background:var(--accent-soft)}
+.ltv-box h4{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.ltv-box .big{font-family:var(--mono);font-size:36px;font-weight:500;line-height:1;font-variant-numeric:tabular-nums}
+.ltv-box .formula-line{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:8px}
+.ltv-box .detail{font-size:14.5px;color:var(--muted);margin-top:10px}
+.ltv-box .detail:last-child{margin-bottom:0}
+.delta{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;background:var(--accent);color:#fff;padding:5px 12px;border-radius:3px}
+
+/* ---------- tables ---------- */
+.scroll-x{overflow-x:auto;white-space:nowrap;margin:22px calc(-1*var(--pad)) -8px;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+.table-inner{display:inline-block;min-width:100%;padding:0 var(--pad) 8px;vertical-align:middle}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{font-family:var(--mono);font-weight:500;font-size:12px;color:var(--muted);text-align:left;padding:10px 14px 10px 0;white-space:nowrap;border-bottom:1px solid var(--rule-strong);letter-spacing:.02em}
+td{padding:12px 14px 12px 0;border-bottom:1px solid var(--rule);vertical-align:top;white-space:nowrap;font-variant-numeric:tabular-nums}
+tbody tr:last-child td{border-bottom:0}
+td.lbl{white-space:normal}
+th.num,td.num{text-align:right;padding-right:0}
+td .ok{color:var(--green)}
+td .bad{color:var(--accent)}
+.v-good{color:var(--green);font-weight:500}
+.v-bad{color:var(--accent);font-weight:500}
+.table-caption{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.tbl-note{font-size:14px;color:var(--muted);margin-top:12px}
+
+/* ---------- stats (08) ---------- */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);margin:22px 0;list-style:none}
+.stats li{padding:16px 20px;border-top:1px solid var(--rule)}
+.stats li:nth-child(-n+2){border-top:0}
+.stats li:nth-child(odd){padding-left:0}
+.stats li:nth-child(even){padding-right:0}
+@media(min-width:768px){
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .stats li{border-top:0;padding:0 24px 0 0}
+  .stats li:nth-child(n+2){border-left:1px solid var(--rule);padding-left:24px}
+  .stats li:nth-child(n+2){padding-right:0}
+}
+.stats .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.stats .v{font-family:var(--mono);font-size:clamp(19px,2.4vw,23px);font-weight:500;font-variant-numeric:tabular-nums;margin-top:8px;display:block}
+
+/* ---------- channels (06) ---------- */
+.channel{margin-bottom:8px}
+.channel-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px;padding:18px 0 6px}
+.channel h3{margin:0}
+.channel-meta{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.scen{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:11px 0;border-top:1px solid var(--rule);align-items:baseline}
+.scen .name{font-family:var(--mono);font-size:13px}
+.scen .amt{font-family:var(--mono);font-size:15px;font-variant-numeric:tabular-nums;text-align:right}
+.scen .note{grid-column:1/-1;font-size:14px;color:var(--muted);font-style:italic}
+.channel-line{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--rule-strong);font-family:var(--mono);font-size:13px;color:var(--ink)}
+.channel-line b{font-weight:500}
+
+/* ---------- funnel (10) ---------- */
+.funnel{margin:22px 0}
+.funnel .row{display:grid;grid-template-columns:1fr;gap:6px 24px;padding:18px 0;border-top:1px solid var(--rule)}
+.funnel .row:first-child{border-top:0}
+@media(min-width:640px){.funnel .row{grid-template-columns:1fr 1fr}}
+.funnel .row .r-head{font-family:var(--mono);font-size:13px;font-weight:500}
+.funnel .row .r-head span{font-size:11px;color:var(--faint);letter-spacing:.08em;margin-left:8px}
+.funnel .row .r-fig{display:flex;flex-wrap:wrap;gap:6px 22px;font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums}
+.funnel .row .r-verdict{font-family:var(--mono);font-size:13px;text-align:left}
+@media(min-width:640px){.funnel .row .r-verdict{text-align:right}}
+.r-vgood{color:var(--green)}
+.r-vbad{color:var(--accent)}
+
+/* ---------- steps + gates (11) ---------- */
+.steps{list-style:none;counter-reset:step;margin:20px 0}
+.steps li{counter-increment:step;display:grid;grid-template-columns:auto 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--rule);align-items:baseline}
+.steps li:first-child{border-top:0;padding-top:0}
+.steps li::before{content:counter(step);font-family:var(--mono);font-size:12px;color:var(--accent);border:1px solid var(--accent-border);border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;transform:translateY(2px)}
+.gates{display:grid;grid-template-columns:1fr;gap:12px;margin:22px 0}
+@media(min-width:640px){.gates{grid-template-columns:repeat(3,1fr)}}
+.gate{border:1px solid var(--rule-strong);border-top:3px solid var(--rule-strong);border-radius:8px;padding:18px}
+.gate.g{border-top-color:var(--green)}
+.gate.o{border-top-color:var(--amber)}
+.gate.r{border-top-color:var(--accent)}
+.gate h4{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.gate .cond{font-family:var(--mono);font-size:19px;font-weight:500;font-variant-numeric:tabular-nums;margin-bottom:8px}
+.gate .desc{font-size:14.5px;color:var(--muted)}
+
+/* ---------- doctrine (12) ---------- */
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:10px 6px;font-family:var(--mono);font-size:14px;margin:16px 0 20px}
+.chain .step{background:var(--paper-soft);border:1px solid var(--rule);border-radius:4px;padding:8px 14px;font-weight:500}
+.chain .step:first-child{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chain .arrow{color:var(--faint)}
+.value-list{list-style:none;margin:12px 0 0}
+.value-list li{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:baseline;padding:12px 0;border-top:1px solid var(--rule)}
+.value-list li:first-child{border-top:0}
+.value-list .l{font-size:16.5px}
+.value-list .v{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
+.value-list .zero{font-family:var(--mono);font-size:13px;color:var(--faint);text-align:right}
+
+/* ---------- CTA band ---------- */
+.cta{background:var(--ink);color:var(--paper);padding-block:clamp(56px,8vw,80px);margin-top:56px}
+.cta .kicker{color:#9c978f}
+.cta h2{color:var(--paper);margin-bottom:16px}
+.cta h2 .t{color:var(--paper)}
+.cta h2 .num{color:#e58870}
+.cta p{color:rgba(250,249,245,.82);max-width:60ch}
+.cta .lists{display:grid;grid-template-columns:1fr;gap:24px;margin:28px 0}
+@media(min-width:640px){.cta .lists{grid-template-columns:1fr 1fr}}
+.cta .lists h4{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#9c978f;margin-bottom:12px}
+.cta .lists ul{list-style:none}
+.cta .lists li{font-family:var(--mono);font-size:13px;letter-spacing:.02em;color:rgba(250,249,245,.9);padding:7px 0;border-top:1px solid rgba(250,249,245,.14)}
+.cta .lists li:first-child{border-top:0}
+
+/* ---------- footer ---------- */
+footer{padding-block:56px}
+.foot-grid{display:grid;grid-template-columns:1fr;gap:40px}
+@media(min-width:768px){.foot-grid{grid-template-columns:1fr 1fr}}
+.foot-brand{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;margin-bottom:14px}
+.foot-tag{color:var(--muted);font-size:16px;max-width:38ch}
+.subscribe{display:flex;flex-direction:column;gap:10px;margin-top:18px;max-width:380px}
+@media(min-width:480px){.subscribe{flex-direction:row}}
+.subscribe input{flex:1;min-width:0;font-family:var(--mono);font-size:14px;padding:12px 14px;border:1px solid var(--rule-strong);border-radius:5px;background:var(--paper);color:var(--ink)}
+.subscribe input::placeholder{color:var(--faint)}
+.subscribe input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.foot-meta{margin-top:40px;padding-top:20px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline;font-family:var(--mono);font-size:11.5px;color:var(--faint);letter-spacing:.04em}
+.foot-meta a{color:var(--muted);text-decoration:none}
+.foot-meta a:hover{color:var(--accent)}
+
+/* ---------- glossary additions ---------- */
+.defs.gloss dd{padding-right:0}
+.g-ref{display:inline-block;margin-left:8px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;white-space:nowrap}
+.g-ref a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-border)}
+.g-ref a:hover{border-bottom-color:var(--accent)}
+.back-link{margin-top:28px;padding-top:16px;border-top:1px solid var(--rule-strong);font-family:var(--mono);font-size:13px}
+.back-link a{color:var(--ink);text-decoration:none}
+.back-link a:hover{color:var(--accent)}
+</style>
+</head>
+<body>
+<nav class="top-nav" aria-label="Pagrindinė navigacija">
+  <div class="container nav-inner">
+    <a class="nav-brand" href="/lt/" aria-label="Verslo Grafija">Verslo Grafija</a>
+    <div class="nav-links">
+      <span class="nav-lang mono"><a href="/" lang="en">EN</a><span>/</span><a href="/lt/" lang="lt" aria-current="page">LT</a></span>
+      <a class="nav-link" href="/lt/zodynelis/" aria-current="page">Žodynėlis</a>
+      <a class="nav-link nav-cta-hide" href="https://visa.verslografija.lt">Naujienlaiškis</a>
+      <a class="btn btn-secondary min-touch" href="https://calendly.com/infrawei">Registruotis pokalbiui&nbsp;&rarr;</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <p class="eyebrow">Verslo Grafija &middot; CAC / LTV vadovas</p>
+    <h1>Žodynėlis</h1>
+    <p class="hero-sub">Vadovo terminai vienoje vietoje &middot; kiekvienas su nuoroda į skyrių</p>
+  </div>
+</header>
+
+<main>
+<section id="matai">
+  <div class="container">
+    <h2><span class="num">01</span><span class="t">Matai ir santrumpos</span></h2>
+    <dl class="defs gloss">
+      <div><dt>ARR</dt><dd>Metinės pasikartojančios pajamos — aktyvūs prenumeratoriai &times; metinė kaina. Skydelyje gražu, bet grynųjų nerodo. <span class="g-ref"><a href="/lt/#10">§10</a></span></dd></div>
+      <div><dt>CAC</dt><dd>Kliento įsigijimo kaštai — <span class="formula-inline">CPC &divide; bendra konversija</span>. Turi būti atgautas iš operacinės maržos. <span class="g-ref"><a href="/lt/#05">§05</a></span></dd></div>
+      <div><dt>CPC</dt><dd>Kaina už paspaudimą. Kyla su išlaidomis (sotumas); konversija — ne. <span class="g-ref"><a href="/lt/#08">§08</a></span></dd></div>
+      <div><dt>LTV</dt><dd>Viso gyvenimo vertė. Vadove visada <strong>op-maržos</strong> LTV (marža &times; gyvenimas), ne pajamų — pajamų glosto savimeilę. <span class="g-ref"><a href="/lt/#04">§04</a></span></dd></div>
+      <div><dt>TTFV</dt><dd>Laikas iki pirmosios sukurtos vertės. Jei per 5 minutes vartotojas neišsprendžia problemos — jis jau pas konkurentus. <span class="g-ref"><a href="/lt/#06">§06</a></span></dd></div>
+      <div><dt>VMI</dt><dd>Valstybinė mokesčių inspekcija. Atitikties kablys — terminai, kurių praleisti negalima. <span class="g-ref"><a href="/lt/#07">§07</a></span></dd></div>
+      <div><dt>Bendra konversija</dt><dd><span class="formula-inline">Apsilankymas&rarr;registracija &times; registracija&rarr;mokėjimas</span>. Vienas skaičius, lemiantis kanalo gyvybingumą; mastelio slenkstis 2.5%. <span class="g-ref"><a href="/lt/#03">§03</a></span></dd></div>
+      <div><dt>Churn</dt><dd>Mėnesinis atšaukimo rodiklis. Susikaupia pradžioje (c₁), vėliau stabilizuojasi (c₂) — matuok abu, ne vidurkį. <span class="g-ref"><a href="/lt/#06">§06</a></span></dd></div>
+      <div><dt>Kohorta</dt><dd>Klientų grupė, įsigyta tuo pačiu metu. Vertinama jos išgyvenimo kreivė, ne bendras ARR skydelis. <span class="g-ref"><a href="/lt/#10">§10</a></span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="matematika">
+  <div class="container">
+    <h2><span class="num">02</span><span class="t">Matematika ir ribos</span></h2>
+    <dl class="defs gloss">
+      <div><dt>Atsipirkimas</dt><dd><span class="formula-inline">CAC &divide; operacinė marža</span> — €60 &divide; €6 = 10 mėnesių. CAC sumokamas iš anksto, marža vėluoja: 8&ndash;10 mėnesių neigiamas grynųjų įnašas kiekvienai kohortai. <span class="g-ref"><a href="/lt/#03">§03</a></span></dd></div>
+      <div><dt>Operacinė marža</dt><dd><span class="formula-inline">€10 &minus; €3 tiesioginės &minus; €1 rezervas = €6/mėn</span>. Visas planavimas naudoja €6, ne €7. <span class="g-ref"><a href="/lt/#03">§03</a></span></dd></div>
+      <div><dt>Rezervas</dt><dd>€1/mėn amortizatorius išlaidų viršijimams (LLM kainos, palaikymas), kol kohortos subręs ir €3 prielaida pasitvirtins; tada atsipalaiduoja. <span class="g-ref"><a href="/lt/#03">§03</a></span></dd></div>
+      <div><dt>Op-maržos LTV</dt><dd><span class="formula-inline">Marža &times; vidutinis gyvenimas</span> — €6 &times; 29 = €174 esant 3.5% churn. Pajamų LTV būtų €360: iki 52% mažiau, įkainojus rezervą ir konservatyvų churn. <span class="g-ref"><a href="/lt/#04">§04</a></span></dd></div>
+      <div><dt>Operacijų linija</dt><dd>€60 — maksimalus CAC, kai atsipirkimas 10 mėnesių. Griežtesnis apribojimas laimi. <span class="g-ref"><a href="/lt/#05">§05</a></span></dd></div>
+      <div><dt>Lubos</dt><dd>€72 — maksimalus CAC esant 12 mėnesių atsipirkimui. Tik gerai kapitalizuotiems ir tik su patvirtintu churn &lt; 3%. <span class="g-ref"><a href="/lt/#05">§05</a></span></dd></div>
+      <div><dt>Mastelio slenkstis</dt><dd>2.5% bendros konversijos — kad mokamas įsigijimas veiktų iki ~€3k/mėn; žemiau jos kiekvienas CPC šuolis stumia per liniją. <span class="g-ref"><a href="/lt/#08">§08</a></span></dd></div>
+      <div><dt>Dviejų fazių išgyvenimas</dt><dd><span class="formula-inline">S₃₆ &asymp; (1 &minus; c₁)&sup3; &times; (1 &minus; c₂)&sup3;&sup3;</span> — realistiškesnis nei 1/churn, nes churn telkiasi pirmuosiuose mėnesiuose. <span class="g-ref"><a href="/lt/#06">§06</a></span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="sprendimai">
+  <div class="container">
+    <h2><span class="num">03</span><span class="t">Išlaikymas, kanalai, sprendimai</span></h2>
+    <dl class="defs gloss">
+      <div><dt>Atitikties kablys</dt><dd>Momentas, kai vartotojas užsikabina: per pirmą sesiją sukuria pirmą realią vertę — pvz., įveda pirmąją sąskaitą ar sukonfigūruoja struktūrą. <span class="g-ref"><a href="/lt/#06">§06</a></span></dd></div>
+      <div><dt>Atkritimas</dt><dd>Kohortos nutekėjimas. Matuok kiekviename registracijos ekrane — ten, kur nuteka, ir taisyk. <span class="g-ref"><a href="/lt/#06">§06</a></span></dd></div>
+      <div><dt>Piltuvėlis</dt><dd>Apsilankymas &rarr; registracija &rarr; mokėjimas. Scenarijus keičia CAC nuo €31 (geras) iki €240 (blogas). <span class="g-ref"><a href="/lt/#11">§11</a></span></dd></div>
+      <div><dt>Sotumas</dt><dd>CPC kyla su biudžetu, konversija — ne. €1k&rarr;€5k/mėn stumia tave per operacijų liniją. <span class="g-ref"><a href="/lt/#08">§08</a></span></dd></div>
+      <div><dt>Sprendimo vartai</dt><dd>CAC &lt; €45 &rarr; mastelis; €45&ndash;60 &rarr; optimizuoti; &gt; €60 &rarr; keisti kainą ar kanalą. <span class="g-ref"><a href="/lt/#12">§12</a></span></dd></div>
+      <div><dt>€600 testas</dt><dd>Dviejų kanalų bandymas prieš įsipareigojant biudžetui. Patikrina CAC, ne churn — churn reikalauja 150&ndash;250 klientų per 6 mėnesius. <span class="g-ref"><a href="/lt/#12">§12</a></span></dd></div>
+    </dl>
+    <p class="back-link"><a href="/lt/">&larr; Atgal į CAC / LTV vadovą</a></p>
+  </div>
+</section>
+</main>
+
+<div class="cta">
+  <div class="container">
+    <p class="kicker">Verslo Grafija</p>
+    <h2><span class="num">▸</span><span class="t">Vienas kintamasis, kurio neturite</span></h2>
+    <p>Jūsų tikrasis churn. Ne pramonės vidurkiai. Jūsų kohortos išgyvenimo kreivė. Kol neišmatuojate, nežinote, ar mokamas įsigijimas apskritai apsimoka.</p>
+    <a class="btn btn-dark min-touch" href="https://calendly.com/infrawei">Registruotis 30 min &rarr;</a>
+  </div>
+</div>
+
+<footer>
+  <div class="container foot-grid">
+    <div>
+      <p class="foot-brand">Verslo Grafija</p>
+      <p class="foot-tag">Mintys apie verslą. Strategija, organizacijos, produktai, knygos. Kartais parašau.</p>
+    </div>
+    <div>
+      <form class="subscribe" action="https://visa.verslografija.lt" method="get" aria-label="Prenumeruoti naujienlaiškį">
+        <input type="email" name="email" placeholder="you@example.com" required aria-label="El. paštas">
+        <button type="submit" class="btn btn-soft min-touch">Prenumeruoti</button>
+      </form>
+    </div>
+  </div>
+  <div class="container">
+    <div class="foot-meta">
+      <span>Verslo grafija &middot; 2026 &middot; v5.2</span>
+      <a href="/lt/">CAC / LTV vadovas</a>
+      <a href="https://visa.verslografija.lt">Archyvas</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
