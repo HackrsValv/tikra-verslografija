@@ -1,0 +1,18 @@
+CNAME
+  h_f6687c1f6f3520 1
+index.html
+  h_f6687c1f6f3520 1-11
+lt/index.html
+  h_f6687c1f6f3520 1-599
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "f4511c40ed081d6fa30d3ce28dfd16ad30ccf0a5",
+  "prompts": {},
+  "humans": {
+    "h_f6687c1f6f3520": {
+      "author": "Marty <saint@ghost.lt>"
+    }
+  }
+}
