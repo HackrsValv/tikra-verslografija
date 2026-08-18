@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAC / LTV v5.2 — Operatoriaus vadovas SaaS vieneto ekonomikai</title>
+<meta name="description" content="Marža paremtas vieneto ekonomikos modelis €10/mėn SaaS produktui. Ar pelningai galima įsigyti klientą tokia kaina? Retencijos diagnostika, LTV skaičiavimai, kanalų analizė.">
+<meta property="og:title" content="CAC / LTV v5.2 — Operatoriaus vadovas">
+<meta property="og:description" content="Marža paremtas vieneto ekonomikos modelis €10/mėn SaaS. Tikslumo sąlygos, churn analizė, kanalų gyvybingumas.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tikra.verslografija.lt/lt/">
+<link rel="canonical" href="https://tikra.verslografija.lt/lt/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#faf9f5; --paper-soft:#f5f4ef; --ink:#1c1917; --muted:#57534e; --faint:#a8a29e;
+  --rule:rgba(28,25,23,.1); --rule-strong:rgba(28,25,23,.16);
+  --accent:#b8432f; --accent-soft:rgba(184,67,47,.06); --accent-border:rgba(184,67,47,.35);
+  --green:#2d6a4f; --amber:#9e6c00; --blue:#1d4e89; --purple:#7c3aed;
+  --blue-bg:rgba(29,78,137,.06); --amber-bg:rgba(158,108,0,.07); --purple-bg:rgba(124,58,237,.06);
+  --serif:"Crimson Pro",Georgia,"Times New Roman",serif;
+  --mono:"DM Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --pad:clamp(20px,5vw,32px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;text-wrap:pretty;font-variant-ligatures:common-ligatures}
+@media(min-width:640px){body{font-size:16px}}
+.container{max-width:960px;margin-inline:auto;padding-inline:var(--pad)}
+::selection{background:rgba(184,67,47,.18)}
+a{color:inherit}
+.mono{font-family:var(--mono)}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ---------- nav ---------- */
+.top-nav{position:sticky;top:0;z-index:50;background:rgba(250,249,245,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+.nav-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;padding-block:14px}
+.nav-brand{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;text-decoration:none;color:var(--ink);white-space:nowrap}
+.nav-brand:hover{color:var(--accent)}
+.nav-links{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px}
+@media(max-width:480px){.nav-links{gap:12px}.btn{padding:10px 14px}}
+.nav-link{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.nav-link:hover{color:var(--ink)}
+.nav-lang{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em}
+.nav-lang a{color:var(--faint);text-decoration:none}
+.nav-lang a[aria-current]{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.nav-cta-hide{display:none}
+@media(min-width:640px){.nav-cta-hide{display:inline-flex}}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--mono);font-size:13px;letter-spacing:.05em;text-decoration:none;border-radius:5px;padding:11px 18px;border:1px solid transparent;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,color .15s ease;white-space:nowrap}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn-primary{background:var(--ink);color:var(--paper)}
+.btn-primary:hover{background:#292524}
+.btn-secondary{border-color:var(--rule-strong);background:transparent;color:var(--ink)}
+.btn-secondary:hover{border-color:rgba(28,25,23,.32);background:rgba(28,25,23,.04)}
+.btn-dark{background:var(--paper);color:var(--ink)}
+.btn-dark:hover{background:#fff}
+.btn-soft{background:rgba(28,25,23,.07);color:var(--ink)}
+.btn-soft:hover{background:rgba(28,25,23,.12)}
+.min-touch{position:relative}
+.min-touch::after{content:"";position:absolute;top:50%;left:50%;width:max(100%,3rem);height:max(100%,3rem);transform:translate(-50%,-50%)}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(48px,8vw,84px) clamp(36px,5vw,56px)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1{font-size:clamp(32px,5.2vw,46px);line-height:1.12;font-weight:600;letter-spacing:-.02em;text-wrap:pretty;max-width:24ch}
+.ver{display:inline-block;vertical-align:middle;margin-left:10px;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.08em;background:var(--ink);color:var(--paper);padding:4px 9px;border-radius:3px;transform:translateY(-4px)}
+.hero-sub{font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:var(--muted);margin-top:18px;font-variant-numeric:tabular-nums}
+
+/* ---------- sections ---------- */
+section{padding-block:44px}
+section + section{border-top:1px solid var(--rule)}
+h2{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+h2 .num{font-family:var(--mono);font-size:13px;letter-spacing:.1em;color:var(--accent);flex:none}
+h2 .t{font-family:var(--serif);font-size:clamp(21px,2.6vw,25px);font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+h3{font-size:19px;font-weight:600;margin:30px 0 10px;text-wrap:balance}
+p{margin-bottom:14px}
+.lead{font-size:clamp(18px,2.2vw,20px);line-height:1.6;color:var(--ink);font-weight:400}
+.note{font-size:15px;color:var(--muted);font-style:italic;margin-top:8px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.strong-p{font-size:clamp(18px,2.4vw,21px);font-weight:500;letter-spacing:-.01em;line-height:1.45}
+
+/* ---------- definition list ---------- */
+.defs>div{display:grid;grid-template-columns:minmax(110px,190px) 1fr;gap:4px 24px;padding:16px 0;border-top:1px solid var(--rule)}
+.defs>div:first-child{border-top:0;padding-top:4px}
+.defs dt{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--blue);padding-top:3px}
+.defs dd{font-size:16.5px}
+.defs dd .formula-inline{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums}
+@media(max-width:560px){.defs>div{grid-template-columns:1fr}.defs dt{padding-top:0;margin-bottom:2px}}
+
+/* ---------- formula blocks ---------- */
+.formula{background:var(--ink);color:var(--paper);border-radius:6px;padding:18px 22px;margin:18px 0;font-family:var(--mono);font-size:15px;text-align:center;font-variant-numeric:tabular-nums}
+.formula .label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9c978f;margin-bottom:8px;text-align:center}
+.formula-triple{display:grid;grid-template-columns:1fr;gap:14px;margin:18px 0}
+@media(min-width:640px){.formula-triple{grid-template-columns:repeat(3,1fr)}}
+.formula-sm{background:var(--ink);color:var(--paper);border-radius:6px;padding:16px 18px;text-align:center;font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
+.formula-sm .label{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#9c978f;margin-bottom:8px}
+
+/* ---------- annotations ---------- */
+.annot{border-left:3px solid var(--blue);background:var(--blue-bg);border-radius:0 6px 6px 0;padding:14px 18px;margin:18px 0;font-size:15.5px;color:var(--muted)}
+.annot strong{color:var(--ink);font-weight:600}
+.annot.warn{border-color:var(--accent);background:var(--accent-soft)}
+.annot.correction{border-color:var(--amber);background:var(--amber-bg)}
+.annot.cash{border-color:var(--purple);background:var(--purple-bg)}
+.annot .annot-label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+
+/* ---------- ltv compare ---------- */
+.ltv-compare{display:grid;grid-template-columns:1fr;gap:14px;margin:22px 0}
+@media(min-width:640px){.ltv-compare{grid-template-columns:1fr 1fr}}
+.ltv-box{border:1px solid var(--rule-strong);border-radius:8px;padding:22px}
+.ltv-box.margin{border-color:var(--accent-border);background:var(--accent-soft)}
+.ltv-box h4{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.ltv-box .big{font-family:var(--mono);font-size:36px;font-weight:500;line-height:1;font-variant-numeric:tabular-nums}
+.ltv-box .formula-line{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:8px}
+.ltv-box .detail{font-size:14.5px;color:var(--muted);margin-top:10px}
+.ltv-box .detail:last-child{margin-bottom:0}
+.delta{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;background:var(--accent);color:#fff;padding:5px 12px;border-radius:3px}
+
+/* ---------- tables ---------- */
+.scroll-x{overflow-x:auto;white-space:nowrap;margin:22px calc(-1*var(--pad)) -8px;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+.table-inner{display:inline-block;min-width:100%;padding:0 var(--pad) 8px;vertical-align:middle}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{font-family:var(--mono);font-weight:500;font-size:12px;color:var(--muted);text-align:left;padding:10px 14px 10px 0;white-space:nowrap;border-bottom:1px solid var(--rule-strong);letter-spacing:.02em}
+td{padding:12px 14px 12px 0;border-bottom:1px solid var(--rule);vertical-align:top;white-space:nowrap;font-variant-numeric:tabular-nums}
+tbody tr:last-child td{border-bottom:0}
+td.lbl{white-space:normal}
+th.num,td.num{text-align:right;padding-right:0}
+td .ok{color:var(--green)}
+td .bad{color:var(--accent)}
+.v-good{color:var(--green);font-weight:500}
+.v-bad{color:var(--accent);font-weight:500}
+.table-caption{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.tbl-note{font-size:14px;color:var(--muted);margin-top:12px}
+
+/* ---------- stats (08) ---------- */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);margin:22px 0;list-style:none}
+.stats li{padding:16px 20px;border-top:1px solid var(--rule)}
+.stats li:nth-child(-n+2){border-top:0}
+.stats li:nth-child(odd){padding-left:0}
+.stats li:nth-child(even){padding-right:0}
+@media(min-width:768px){
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .stats li{border-top:0;padding:0 24px 0 0}
+  .stats li:nth-child(n+2){border-left:1px solid var(--rule);padding-left:24px}
+  .stats li:nth-child(n+2){padding-right:0}
+}
+.stats .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.stats .v{font-family:var(--mono);font-size:clamp(19px,2.4vw,23px);font-weight:500;font-variant-numeric:tabular-nums;margin-top:8px;display:block}
+
+/* ---------- channels (06) ---------- */
+.channel{margin-bottom:8px}
+.channel-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px;padding:18px 0 6px}
+.channel h3{margin:0}
+.channel-meta{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.scen{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:11px 0;border-top:1px solid var(--rule);align-items:baseline}
+.scen .name{font-family:var(--mono);font-size:13px}
+.scen .amt{font-family:var(--mono);font-size:15px;font-variant-numeric:tabular-nums;text-align:right}
+.scen .note{grid-column:1/-1;font-size:14px;color:var(--muted);font-style:italic}
+.channel-line{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--rule-strong);font-family:var(--mono);font-size:13px;color:var(--ink)}
+.channel-line b{font-weight:500}
+
+/* ---------- funnel (10) ---------- */
+.funnel{margin:22px 0}
+.funnel .row{display:grid;grid-template-columns:1fr;gap:6px 24px;padding:18px 0;border-top:1px solid var(--rule)}
+.funnel .row:first-child{border-top:0}
+@media(min-width:640px){.funnel .row{grid-template-columns:1fr 1fr}}
+.funnel .row .r-head{font-family:var(--mono);font-size:13px;font-weight:500}
+.funnel .row .r-head span{font-size:11px;color:var(--faint);letter-spacing:.08em;margin-left:8px}
+.funnel .row .r-fig{display:flex;flex-wrap:wrap;gap:6px 22px;font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums}
+.funnel .row .r-verdict{font-family:var(--mono);font-size:13px;text-align:left}
+@media(min-width:640px){.funnel .row .r-verdict{text-align:right}}
+.r-vgood{color:var(--green)}
+.r-vbad{color:var(--accent)}
+
+/* ---------- steps + gates (11) ---------- */
+.steps{list-style:none;counter-reset:step;margin:20px 0}
+.steps li{counter-increment:step;display:grid;grid-template-columns:auto 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--rule);align-items:baseline}
+.steps li:first-child{border-top:0;padding-top:0}
+.steps li::before{content:counter(step);font-family:var(--mono);font-size:12px;color:var(--accent);border:1px solid var(--accent-border);border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;transform:translateY(2px)}
+.gates{display:grid;grid-template-columns:1fr;gap:12px;margin:22px 0}
+@media(min-width:640px){.gates{grid-template-columns:repeat(3,1fr)}}
+.gate{border:1px solid var(--rule-strong);border-top:3px solid var(--rule-strong);border-radius:8px;padding:18px}
+.gate.g{border-top-color:var(--green)}
+.gate.o{border-top-color:var(--amber)}
+.gate.r{border-top-color:var(--accent)}
+.gate h4{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.gate .cond{font-family:var(--mono);font-size:19px;font-weight:500;font-variant-numeric:tabular-nums;margin-bottom:8px}
+.gate .desc{font-size:14.5px;color:var(--muted)}
+
+/* ---------- doctrine (12) ---------- */
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:10px 6px;font-family:var(--mono);font-size:14px;margin:16px 0 20px}
+.chain .step{background:var(--paper-soft);border:1px solid var(--rule);border-radius:4px;padding:8px 14px;font-weight:500}
+.chain .step:first-child{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chain .arrow{color:var(--faint)}
+.value-list{list-style:none;margin:12px 0 0}
+.value-list li{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:baseline;padding:12px 0;border-top:1px solid var(--rule)}
+.value-list li:first-child{border-top:0}
+.value-list .l{font-size:16.5px}
+.value-list .v{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
+.value-list .zero{font-family:var(--mono);font-size:13px;color:var(--faint);text-align:right}
+
+/* ---------- CTA band ---------- */
+.cta{background:var(--ink);color:var(--paper);padding-block:clamp(56px,8vw,80px);margin-top:56px}
+.cta .kicker{color:#9c978f}
+.cta h2{color:var(--paper);margin-bottom:16px}
+.cta h2 .t{color:var(--paper)}
+.cta h2 .num{color:#e58870}
+.cta p{color:rgba(250,249,245,.82);max-width:60ch}
+.cta .lists{display:grid;grid-template-columns:1fr;gap:24px;margin:28px 0}
+@media(min-width:640px){.cta .lists{grid-template-columns:1fr 1fr}}
+.cta .lists h4{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#9c978f;margin-bottom:12px}
+.cta .lists ul{list-style:none}
+.cta .lists li{font-family:var(--mono);font-size:13px;letter-spacing:.02em;color:rgba(250,249,245,.9);padding:7px 0;border-top:1px solid rgba(250,249,245,.14)}
+.cta .lists li:first-child{border-top:0}
+
+/* ---------- footer ---------- */
+footer{padding-block:56px}
+.foot-grid{display:grid;grid-template-columns:1fr;gap:40px}
+@media(min-width:768px){.foot-grid{grid-template-columns:1fr 1fr}}
+.foot-brand{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;margin-bottom:14px}
+.foot-tag{color:var(--muted);font-size:16px;max-width:38ch}
+.subscribe{display:flex;flex-direction:column;gap:10px;margin-top:18px;max-width:380px}
+@media(min-width:480px){.subscribe{flex-direction:row}}
+.subscribe input{flex:1;min-width:0;font-family:var(--mono);font-size:14px;padding:12px 14px;border:1px solid var(--rule-strong);border-radius:5px;background:var(--paper);color:var(--ink)}
+.subscribe input::placeholder{color:var(--faint)}
+.subscribe input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.foot-meta{margin-top:40px;padding-top:20px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline;font-family:var(--mono);font-size:11.5px;color:var(--faint);letter-spacing:.04em}
+.foot-meta a{color:var(--muted);text-decoration:none}
+.foot-meta a:hover{color:var(--accent)}
+
+</style>
+</head>
+<body>
+<a href="#turinys" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">Praleisti į turinį</a>
+
+<nav class="top-nav" aria-label="Pagrindinė navigacija">
+  <div class="container nav-inner">
+    <a class="nav-brand" href="/lt/" aria-label="Verslo Grafija">Verslo Grafija</a>
+    <div class="nav-links">
+      <span class="nav-lang mono"><a href="/" lang="en">EN</a><span>/</span><a href="/lt/" lang="lt" aria-current="page">LT</a></span>
+      <a class="nav-link nav-cta-hide" href="https://visa.verslografija.lt">Naujienlaiškis</a>
+      <a class="btn btn-secondary min-touch" href="https://calendly.com/infrawei">Registruotis pokalbiui&nbsp;&rarr;</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <p class="eyebrow">Vieneto ekonomikos instrumentas</p>
+    <h1>CAC / LTV &mdash; operatoriaus vadovas<span class="ver">v5.2</span></h1>
+    <p class="hero-sub">Lietuviška apskaitos SaaS &middot; €10/mėn &middot; €6 operacinė marža &middot; tikslumo instrumentas</p>
+  </div>
+</header>
+
+<main id="turinys">
+<section id="01">
+  <div class="container">
+    <h2><span class="num">01</span><span class="t">Kas tai yra</span></h2>
+    <p class="lead">Marža paremtas vieneto ekonomikos modelis €10/mėn SaaS produktui vienos šalies nišoje. Vienas klausimas: <strong>ar pelningai galima įsigyti klientą tokia kaina?</strong></p>
+    <p>Atsakymas: taip &mdash; bet tik esant tikslumo sąlygoms. Esant €6/mėn operacinei maržai, veikiate siauroje svyravimų juostoje. Nedideli churn ar konversijos pokyčiai griauna ekonomiką. <strong>Stabilumas vertingesnis už augimą.</strong></p>
+    <p class="note">Modelis prisiima: mėnesinis atsiskaitymas, vieno vartotojo paskyros, be nemokamo plano. Su metiniu atsiskaitymu atsipirkimo apribojimas atkrinta; su kelių vartotojų paskyromis churn žala koncentruojasi; su nemokamu planu konversija tampa produkto metrika.</p>
+  </div>
+</section>
+
+<section id="02">
+  <div class="container">
+    <h2><span class="num">02</span><span class="t">Kaip naudoti šį vadovą</span></h2>
+    <p class="lead">Trys žingsniai, griežta tvarka. Kiekvienas atrakina kitą. Praleidus vieną, likę skaičiai tampa beverčiai.</p>
+    <ol class="steps">
+      <li><span><strong>Apskaičiuok realią operacinę maržą</strong> — atėmus €1 rezervą: <span class="mono tnum">€10 &minus; €3 tiesioginės &minus; €1 rezervas = €6/mėn</span>. Tai visas tavo planavimas (§03).</span></li>
+      <li><span><strong>Išmatuok pirmojo mėnesio atšaukimus (c₁)</strong> — jei ankstyvasis churn viršija 9%, mokamas įsigijimas yra nuostolių greitintuvas. Sustok ir taisyk vartotojų įvedimą (§06). Kol c₁ nenukrito žemiau 8% — jokių skelbimų.</span></li>
+      <li><span><strong>Kai išlaikymas stabilizuojasi</strong> (stabilus churn &le; 2.5&ndash;3.5%) — tik tada testuok Google ar Meta kanalus (§07), skaičiuok CAC ir sprendimų vartus (§12).</span></li>
+    </ol>
+    <div class="annot">
+      <span class="annot-label">Priežastinis ryšys</span>
+      Marža nustato, kiek gali mokėti už klientą. Išlaikymas nustato, ar klientas grąžins tą maržą. Kanalai tik atveda žmones į šią matematiką. Negalima pilti pinigų į reklamą prieš sutvarkius išlaikymą. <strong>Kitaip perki klientus, kurių kohorta negali atsipirkti.</strong>
+    </div>
+  </div>
+</section>
+
+<section id="03">
+  <div class="container">
+    <h2><span class="num">03</span><span class="t">Terminai</span></h2>
+    <dl class="defs">
+      <div><dt>Bendroji marža</dt><dd>€10/mėn pajamos &minus; €3/mėn numatomos tiesioginės išlaidos (LLM, infrastruktūra, palaikymas) <span class="formula-inline">= €7/mėn bendroji marža</span>.</dd></div>
+      <div><dt>Op. marža</dt><dd>€6/mėn. Rezervuok €1/mėn kaip amortizatorių išlaidų viršijimams (LLM kainų pokyčiai, netikėtas palaikymo krūvis), kol kohortos subręs ir €3 išlaidų prielaida pasitvirtins. <strong>Visas planavimas naudoja €6, ne €7.</strong></dd></div>
+      <div><dt>Vidut. gyvenimas</dt><dd><span class="formula-inline">1 &divide; mėnesinis churn</span> (stacionarus supaprastinimas). Esant 2.8% = 36 mėnesiai. Esant 3.5% = 29 mėnesiai. &bdquo;3 metų išlaikymas&ldquo; reikalauja churn &le; 2.8%. Realistiškesniam išgyvenimo įvertinimui žiūrėk dviejų fazių modelį <a href="#06">06 skyriuje</a>.</dd></div>
+      <div><dt>Op-maržos LTV</dt><dd>Operacinė marža &times; vidutinis gyvenimas. Esant €6/mėn ir 3.5% churn: <span class="formula-inline">€6 &times; 29 = €174</span>.</dd></div>
+      <div><dt>CAC</dt><dd><span class="formula-inline">CPC &divide; (nukreipimas&rarr;registracija &times; registracija&rarr;mokėjimas)</span>. Turi būti atgautas iš operacinės maržos. Du apribojimai galioja vienu metu.</dd></div>
+      <div><dt>Atsipirkimas</dt><dd><span class="formula-inline">CAC &divide; operacinė marža</span>. Esant €60 CAC ir €6/mėn: <span class="formula-inline">10 mėnesių</span>. CAC yra iš anksto. Marža vėluoja. Tikėkis 8&ndash;10 mėnesių neigiamo grynųjų įnašo kiekvienai kohortai, kol ji tampa teigiama.</dd></div>
+      <div><dt>Bendra konversija</dt><dd><span class="formula-inline">Apsilankymas&rarr;registracija &times; registracija&rarr;mokėjimas</span>. Vienas skaičius, lemiantis kanalo gyvybingumą. <strong>Mastelio slenkstis: 2.5%.</strong></dd></div>
+      <div><dt>Churn</dt><dd>Mėnesinis atšaukimo rodiklis. Susikaupia pradžioje: 1&ndash;3 mėnesiai būna 2&ndash;3&times; didesni už stabilųjį. 1pp churn sumažinimas paprastai keičia op-maržos LTV €30&ndash;100, priklausomai nuo pradinio rodiklio (2&ndash;3.5% zonoje &mdash; €50&ndash;100).</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="04">
+  <div class="container">
+    <h2><span class="num">04</span><span class="t">Pajamų LTV vs. op-maržos LTV</span></h2>
+    <div class="ltv-compare">
+      <div class="ltv-box revenue">
+        <h4>Pajamų LTV <span style="font-weight:400;color:var(--faint)">&middot; klaidinantis</span></h4>
+        <div class="big">€360</div>
+        <p class="formula-line">€10/mėn &times; 36 mėnesiai</p>
+        <p class="detail">Daroma prielaida 2.8% churn. Ignoruoja išlaidas ir rezervus. Glosto įkūrėjų savimeilę.</p>
+      </div>
+      <div class="ltv-box margin">
+        <h4>Op-maržos LTV <span style="font-weight:400;color:var(--faint)">&middot; planavimo tiesa</span></h4>
+        <div class="big">€174</div>
+        <p class="formula-line">€6/mėn &times; 29 mėnesiai (esant 3.5% churn, su €1 rezervu)</p>
+        <p class="detail">Šis skaičius lemia sprendimą &mdash; arba sprendimas visai nepriimamas.</p>
+        <p class="note" style="font-size:13px">Palyginimas maišo dvi prielaidas: pajamų LTV naudoja 2.8% churn (36 mėn), op-maržos &mdash; 3.5% (29 mėn). Su vienodu 2.8% churn skirtumas susitrauktų iki 40% (€216 vs €360). <strong>Likę 52% &mdash; rezervo ir konservatyvesnio churn kaina.</strong></p>
+        <span class="delta">iki 52% mažiau už naiviąją prognozę</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="05">
+  <div class="container">
+    <h2><span class="num">05</span><span class="t">Trys formulės, du apribojimai</span></h2>
+    <div class="formula-triple">
+      <div class="formula-sm"><span class="label">Kiek kainuoja klientas?</span>CAC = CPC &divide; visa_konversija</div>
+      <div class="formula-sm"><span class="label">Trumpalaikis: grynųjų sauga</span>Max CAC = op_marža/mėn &times; atsipirkimo_mėnesiai</div>
+      <div class="formula-sm"><span class="label">Ilgalaikis: vieneto ekonomika</span>Max CAC &le; 30&ndash;40% op-maržos LTV</div>
+    </div>
+    <p><strong>Abu apribojimai turi galioti. Griežtesnis laimi.</strong></p>
+    <h3>Operacijų linija <span class="mono tnum" style="font-size:14px;color:var(--faint);font-weight:400">(10 mėn atsipirkimas)</span></h3>
+    <p class="mono tnum" style="font-size:15px">€60 &mdash; €6 &times; 10 mėnesių. Pagrindinis planavimo tikslas. Kai išlaidos pasitvirtina, lubos kyla iki <strong>€70</strong>.</p>
+    <h3>Absoliučios lubos <span class="mono tnum" style="font-size:14px;color:var(--faint);font-weight:400">(12 mėn atsipirkimas)</span></h3>
+    <p class="mono tnum" style="font-size:15px">€72 &mdash; €6 &times; 12 mėnesių. Tik jei gerai kapitalizuoti. Reikalauja patvirtintų churn duomenų &lt; 3%.</p>
+    <div class="annot cash">
+      <span class="annot-label">Grynųjų srautas</span>
+      CAC sumokamas iš anksto. Marža ateina po €6/mėn per 10+ mėnesių. Su €1k/mėn išlaidomis ir ~€60&ndash;70 CAC, kiekvienai kohortai skaičiuok 8&ndash;10 mėnesių neigiamą grynųjų srautą. <strong>ARR skydelyje nėra grynųjų banke.</strong>
+    </div>
+    <p>Esant 3.5% churn: atsipirkimas (€60) ir LTV santykis (35% &times; €174 = €61) susilieja ties €60. Labai mažai vietos klaidoms. Esant 2.5% churn, LTV santykis atsipalaiduoja iki €84 &mdash; atsiranda kvėpavimo erdvė. Esant 4%+, LTV santykis susiaurėja žemiau €60. <strong>Churn nustato, kuris apribojimas tave nužudo.</strong></p>
+  </div>
+</section>
+
+<section id="06">
+  <div class="container">
+    <h2><span class="num">06</span><span class="t">Churn: išgyvenimo kintamasis</span></h2>
+    <p class="table-caption">Churn matrica &mdash; kas lemia esant €6/mėn</p>
+    <div class="scroll-x"><div class="table-inner">
+    <table>
+      <thead>
+        <tr><th>Mėnesinis churn</th><th>Vidut. gyvenimas</th><th class="num">Op-maržos LTV (€6/mėn)</th><th class="num">Max CAC (atsipirkimas)</th><th class="num">Max CAC (35% LTV)</th><th>Lemiantis</th><th>Verdiktas</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="lbl">2.0%</td><td>50 mėn</td><td class="num">€300</td><td class="num">€60</td><td class="num">€105</td><td>Atsipirkimas</td><td class="lbl v-good">Atsipalaidavęs. Visi kanalai gyvybingi.</td></tr>
+        <tr><td class="lbl">2.5%</td><td>40 mėn</td><td class="num">€240</td><td class="num">€60</td><td class="num">€84</td><td>Atsipirkimas</td><td class="lbl v-good">Patogu. Google &bdquo;normalus&ldquo; turi atsargą.</td></tr>
+        <tr><td class="lbl">2.8%</td><td>36 mėn</td><td class="num">€216</td><td class="num">€60</td><td class="num">€76</td><td>Atsipirkimas</td><td class="lbl">&bdquo;3 metų&ldquo; taškas. Jokios švaistymo vietos.</td></tr>
+        <tr><td class="lbl">3.5%</td><td>29 mėn</td><td class="num">€174</td><td class="num">€60</td><td class="num">€61</td><td>Abu</td><td class="lbl">Apribojimai susilieja. <strong>Lūžio taškas.</strong></td></tr>
+        <tr><td class="lbl">4.0%</td><td>25 mėn</td><td class="num">€150</td><td class="num">€60</td><td class="num">€53</td><td>LTV santykis</td><td class="lbl v-bad">Išgyvena tik partnerystės + SEO.</td></tr>
+        <tr><td class="lbl">5.0%</td><td>20 mėn</td><td class="num">€120</td><td class="num">€60</td><td class="num">€42</td><td>LTV santykis</td><td class="lbl v-bad">Mokamas įsigijimas negyvybingas. Taisykite produktą.</td></tr>
+      </tbody>
+    </table>
+    </div></div>
+    <p class="strong-p" style="margin-top:22px">Matematika, kuri skauda: skirtumas tarp 2.5% ir 4.0% churn yra 1.5pp. Skirtumas op-maržos LTV &mdash; €90, t.y. 60% svyravimas. 1pp churn kritimas perkelia op-maržos LTV per €30&ndash;100, priklausomai nuo pradinio lygio. <strong>Joks CPC optimizavimas net nepriartėja prie to.</strong></p>
+
+    <h3>Dviejų fazių išgyvenimas <span style="font-size:14px;font-weight:400;color:var(--faint)">&mdash; realistiškesnis nei 1/churn</span></h3>
+    <p>1/churn formulė remiasi prielaida, kad churn yra stacionarus. Tikrovėje churn telkiasi pirmuosiuose mėnesiuose. Tikslesnis modelis:</p>
+    <div class="formula"><span class="label">Dviejų fazių išgyvenimas iki 36 mėn</span>S₃₆ &asymp; (1 &minus; c₁)&sup3; &times; (1 &minus; c₂)&sup3;&sup3;</div>
+    <p class="note">Kur c₁ = ankstyvasis mėnesinis churn (1&ndash;3 mėnesiai), c₂ = stabilusis mėnesinis churn (4+ mėnesiai).</p>
+    <div class="scroll-x"><div class="table-inner">
+    <table>
+      <thead><tr><th>Scenarijus</th><th class="num">c₁ (ankstyvasis)</th><th class="num">c₂ (stabilusis)</th><th class="num">Išgyvena 3 mėn</th><th class="num">Išgyvena 36 mėn</th><th>Realybė</th></tr></thead>
+      <tbody>
+        <tr><td class="lbl">Optimistinis</td><td class="num">8%</td><td class="num">2.0%</td><td class="num">78%</td><td class="num">40%</td><td class="lbl">Stiprus vartotojų įvedimas + atitikties kablys</td></tr>
+        <tr><td class="lbl">Realistinis</td><td class="num">12%</td><td class="num">2.5%</td><td class="num">68%</td><td class="num">30%</td><td class="lbl">Geras produktas, tipiškas mikro-SMB elgesys</td></tr>
+        <tr><td class="lbl">Pesimistinis</td><td class="num">15%</td><td class="num">3.5%</td><td class="num">61%</td><td class="num">19%</td><td class="lbl">Silpnas vartotojų įvedimas, jokio atitikties inkaro</td></tr>
+      </tbody>
+    </table>
+    </div></div>
+    <div class="annot warn">
+      <span class="annot-label">Avarinis stabdymas</span>
+      Jei ankstyvasis churn c₁ viršija ~9% &mdash; t.y. <span class="mono">(1 &minus; c₁)&sup3; &lt; 0.75</span> &mdash; mokamas įsigijimas yra nuostolių greitintuvas. Esant tokiam rodikliui, mažiau nei 75% įsigytų klientų išgyvena iki 3 mėnesio. Tu išleidi €60+, kad įsigytum klientus, kurių kohorta neatpirks investicijos. <strong>Praktiškai: naudok 1 mėnesio churn kaip c₁ pakaitalą.</strong> Veiksmas: pristabdyk išlaidas &rarr; diagnozuok vartotojų įvedimą &rarr; ištaisyk &rarr; išbandyk su kita kohorta. <strong>Netęskite tol, kol ankstyvasis churn nukris žemiau 8%.</strong>
+    </div>
+    <h3>Ankstyvojo atkritimo diagnostika <span style="font-size:14px;font-weight:400;color:var(--faint)">&mdash; kontrolinis sąrašas</span></h3>
+    <p>Formulės parodo, kad verslas dega. Šis sąrašas duoda gesintuvą — ką matuoti, kad rastum, kur tiksliai nuteka pirmosios kohortos.</p>
+    <ul class="value-list" role="list">
+      <li><span class="l">TTFV &mdash; laikas iki pirmosios sukurtos vertės</span><span class="v">&lt; 5 min</span><span class="zero">jei ilgiau &mdash; kohorta miršta prieš suprasdama produkto vertę</span></li>
+      <li><span class="l">Atkritimas kiekviename registracijos ekrane</span><span class="v">kur?</span><span class="zero">prie įvedimo, mokėjimo ar aktyvacijos žingsnio &mdash; ten ir nuteka</span></li>
+      <li><span class="l">Atitikties kablys &mdash; konkretūs indikatoriai</span><span class="v">1 sesija</span><span class="zero">vartotojas užsikabina, kai per pirmą sesiją sukuria pirmą realią vertę (pvz., įveda pirmąją sąskaitą ar sukonfigūruoja struktūrą)</span></li>
+    </ul>
+    <p class="note">Jei per pirmas penkias minutes klientas neišsprendžia savo problemos, jam nusispjaut, kokia tavo maržos matematika — jis jau pas konkurentus. SaaS vartotojo kantrybė matuojama sekundėmis.</p>
+  </div>
+</section>
+
+<section id="07">
+  <div class="container">
+    <h2><span class="num">07</span><span class="t">Kanalai <span style="color:var(--faint);font-weight:400">(operacijų linija: €60 &middot; lubos: €72)</span></span></h2>
+
+    <div class="channel">
+      <div class="channel-head"><h3>Google paieška</h3><span class="channel-meta">Didelis ketinimas &middot; CPC €0.60&ndash;2.00 &middot; Apsilankymas 3&ndash;10% &middot; Registracija 25&ndash;45%</span></div>
+      <div class="scen"><span class="name">Geras</span><span class="amt">€31</span></div>
+      <div class="scen"><span class="name">Normalus</span><span class="amt">€69 <span class="bad">☠</span></span></div>
+      <div class="scen"><span class="name">Blogas</span><span class="amt">€240</span></div>
+      <p class="note" style="margin-top:10px">&bdquo;Normalus&ldquo; esant €69 viršija operacijų liniją. Pelningas tik &bdquo;geras&ldquo; scenarijus, kol išlaidos pasitvirtina.</p>
+    </div>
+
+    <div class="channel">
+      <div class="channel-head"><h3>Meta (FB / IG)</h3><span class="channel-meta">Mažas ketinimas &middot; CPC €0.25&ndash;0.90 &middot; Apsilankymas 1&ndash;4% &middot; Registracija 15&ndash;35%</span></div>
+      <div class="scen"><span class="name">Geras</span><span class="amt">€44</span></div>
+      <div class="scen"><span class="name">Normalus</span><span class="amt">€100 <span class="bad">☠</span></span></div>
+      <div class="scen"><span class="name">Blogas</span><span class="amt">€350 <span class="bad">☠</span></span></div>
+      <p class="note" style="margin-top:10px">Išgyvena tik &bdquo;geras&ldquo;. Meta &mdash; statymas ant išskirtinio vykdymo.</p>
+    </div>
+
+    <div class="channel">
+      <div class="channel-head"><h3>SEO / Turinys</h3><span class="channel-meta">Lėtas kūrimas &middot; €1,000/mėn &rarr; 2,000 apsilankymų/mėn (įsibėgėjus) &rarr; 1.5% konversija</span></div>
+      <div class="scen"><span class="name">Stabilus</span><span class="amt">€33</span></div>
+      <p class="note" style="margin-top:10px">Geriausia vieneto ekonomika iš visų kanalų. Įsibėgėja per 4&ndash;8 mėnesius. Sezoniniai pikai &mdash; aplink mokesčių terminus.</p>
+    </div>
+
+    <div class="channel">
+      <div class="channel-head"><h3>Partnerystės</h3><span class="channel-meta">Pasitikėjimo perkėlimas &middot; Buhalteriai, bendradarbystės erdvės, SMB bendruomenės &rarr; €15&ndash;30/užduotis</span></div>
+      <div class="scen"><span class="name">Žemas</span><span class="amt">€15</span></div>
+      <div class="scen"><span class="name">Aukštas</span><span class="amt">€30</span></div>
+      <p class="note" style="margin-top:10px">Vienintelis kanalas, veikiantis kiekviename scenarijuje. Tiesiškai nemastelinama.</p>
+    </div>
+
+    <div class="channel-line"><span><b>Operacijų linija:</b> €60</span><span><b>Lubos:</b> €72 (12 mėn, jei kapitalizuoti)</span></div>
+  </div>
+</section>
+
+<section id="08">
+  <div class="container">
+    <h2><span class="num">08</span><span class="t">Sotumas + 2.5% mastelio slenkstis</span></h2>
+    <p class="strong-p">⚡ CPC kyla su išlaidomis. Konversija &mdash; ne.</p>
+    <p>Lietuva: eilės tvarka ~50k&ndash;100k aktyvių SMB. Komercinio ketinimo paieškų tūris (&bdquo;apskaitos programa&ldquo;, &bdquo;buhalterinė programa&ldquo; ir variantai): tikrink su Google Keyword Planner &bdquo;Avg. monthly searches&ldquo; ir &bdquo;Top of page bid (low/high)&ldquo; Lietuvai prieš įsipareigodamas biudžetui. <strong>Tikėtinas diapazonas: 2,000&ndash;5,000 paieškų/mėn.</strong></p>
+    <p>Šio dokumento CPC diapazonus ir kainas tikrink prieš Keyword Planner duomenis &mdash; tai kanoninis šaltinis. Trečiųjų šalių įrankiai (DataForSEO, SEMrush) apytiksliai, bet antraeiliai.</p>
+    <div class="scroll-x"><div class="table-inner">
+    <table>
+      <thead><tr><th>Išlaidos/mėn</th><th class="num">CPC</th><th>Piltuvėlis, kad būtų &lt; €60</th><th class="num">Esant 1.75% piltuviui</th><th class="num">Esant 2.5% piltuviui</th></tr></thead>
+      <tbody>
+        <tr><td class="lbl">€1,000</td><td class="num">€1.20</td><td>2.0%</td><td class="num v-bad">€69 <span class="bad">(virš linijos)</span></td><td class="num v-good">€48 <span class="ok">✓</span></td></tr>
+        <tr><td class="lbl">€3,000</td><td class="num">€1.40</td><td>2.3%</td><td class="num v-bad">€80 <span class="bad">☠</span></td><td class="num v-good">€56 <span class="ok">✓</span></td></tr>
+        <tr><td class="lbl">€5,000</td><td class="num">€1.60</td><td>2.7%</td><td class="num v-bad">€91 <span class="bad">☠</span></td><td class="num">€64 <span style="color:var(--faint)">(prie linijos)</span></td></tr>
+      </tbody>
+    </table>
+    </div></div>
+    <p class="tbl-note">2.5% bendra konversija &mdash; mastelio slenkstis iki ~€3k/mėn. Žemiau šios ribos kiekvienas sotumo sukeltas CPC šuolis stumia tave per operacijų liniją. Esant 1.75%, &bdquo;normalus&ldquo; Google atvejis jau viršija €60 ties baziniu CPC. Esant €5k/mėn, planuok 2.7%+ arba priimk lubų zoną.</p>
+  </div>
+</section>
+
+<section id="09">
+  <div class="container">
+    <h2><span class="num">09</span><span class="t">Siaura svyravimų juosta</span></h2>
+    <p>Esant €6/mėn operacinei maržai, nedideli poslinkiai sunaikina arba atrakina ekonomiką.</p>
+    <ul class="stats" role="list">
+      <li><span class="k">Churn</span><span class="v">&plusmn;60% LTV</span></li>
+      <li><span class="k">Bendra konv.</span><span class="v">&plusmn;7&times; CAC</span></li>
+      <li><span class="k">CPC</span><span class="v">&plusmn;3&times; CAC</span></li>
+      <li><span class="k">Ties. išl.</span><span class="v">&plusmn;€1 = &plusmn;17% marža</span></li>
+    </ul>
+    <p>Kintamieji, kurie tave nužudys, &mdash; churn ir bendra konversija. CPC svarbu mastelio atveju. Tiesioginės išlaidos &mdash; lėtas suspaudimas. Todėl €1 rezervas.</p>
+  </div>
+</section>
+
+<section id="10">
+  <div class="container">
+    <h2><span class="num">10</span><span class="t">Galutinis ARR 36 mėnesį <span style="color:var(--faint);font-weight:400">(ne kaupiamasis &mdash; faktiniai aktyvūs prenumeratoriai)</span></span></h2>
+    <p>Google paieška, &bdquo;normalus&ldquo; piltuvėlis. CAC pakoreguotas dėl sotumo. Aktyvūs klientai ir galutinis ARR skaičiuojami taip:</p>
+    <div class="formula"><span class="label">Galutiniai aktyvūs prenumeratoriai</span>Aktyvūs₃₆ = (mėnesiniai_įsigijimai &divide; churn) &times; (1 &minus; (1 &minus; churn)&sup3;&sup6;) &nbsp;&middot;&nbsp; Galutinis ARR = Aktyvūs₃₆ &times; €120</div>
+    <div class="scroll-x"><div class="table-inner">
+    <table>
+      <thead>
+        <tr>
+          <th>Išlaidos/mėn</th><th class="num">CAC</th>
+          <th class="num">2.5% churn &mdash; Aktyvūs</th><th class="num">2.5% churn &mdash; ARR</th>
+          <th class="num">3.5% churn &mdash; Aktyvūs</th><th class="num">3.5% churn &mdash; ARR</th>
+          <th class="num">5% churn &mdash; Aktyvūs</th><th class="num">5% churn &mdash; ARR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="lbl">€1,000</td><td class="num">€69</td><td class="num">347</td><td class="num">€42k</td><td class="num">299</td><td class="num">€36k</td><td class="num">244</td><td class="num">€29k</td></tr>
+        <tr><td class="lbl">€3,000</td><td class="num">€80</td><td class="num">897</td><td class="num">€108k</td><td class="num">774</td><td class="num">€93k</td><td class="num">632</td><td class="num">€76k</td></tr>
+        <tr><td class="lbl">€5,000</td><td class="num">€91</td><td class="num">1,314</td><td class="num">€158k</td><td class="num">1,134</td><td class="num">€136k</td><td class="num">925</td><td class="num">€111k</td></tr>
+      </tbody>
+    </table>
+    </div></div>
+    <p class="tbl-note">Šie skaičiai mažesni nei tipinės prognozės, nes lentelė rodo aktyvius prenumeratorius 36 mėnesį, <em>ne visus kada nors įsigytus</em>. Churn suėda ankstyvąsias kohortas. Esant 3.5% churn, 36 mėnesį aktyvūs tik ~27% pirmojo mėnesio klientų. €3k ir €5k eilutės taip pat viršija €60 operacijų liniją (CAC €80&ndash;91) &mdash; kiekvienas naujas klientas įsigyjamas su nuostoliu. <strong>Pajamos auga, bet marža neatsigauna.</strong> Skaičiai suapvalinti iki sveikų prenumeratorių.</p>
+  </div>
+</section>
+
+<section id="11">
+  <div class="container">
+    <h2><span class="num">11</span><span class="t">Piltuvėlis: 1,000 paspaudimų <span style="color:var(--faint);font-weight:400">(Google paieška)</span></span></h2>
+    <div class="funnel">
+      <div class="row">
+        <div class="r-head">Geras <span>3.2%</span></div>
+        <div class="r-fig"><span>1,000 paspaudimai</span><span>80 reg (8%)</span><span>32 mok (40%)</span></div>
+        <div class="r-verdict r-vgood">€31 &middot; mastelis saugus</div>
+      </div>
+      <div class="row">
+        <div class="r-head">Normalus <span>1.75%</span></div>
+        <div class="r-fig"><span>1,000 paspaudimai</span><span>50 reg (5%)</span><span>18 mok (35%)</span></div>
+        <div class="r-verdict r-vbad">€69 &middot; virš operacijų linijos</div>
+      </div>
+      <div class="row">
+        <div class="r-head">Blogas <span>0.75%</span></div>
+        <div class="r-fig"><span>1,000 paspaudimai</span><span>30 reg (3%)</span><span>8 mok (25%)</span></div>
+        <div class="r-verdict r-vbad">€240 <span class="bad">☠</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="12">
+  <div class="container">
+    <h2><span class="num">12</span><span class="t">€600 testas + sprendimo vartai</span></h2>
+    <ol class="steps">
+      <li><span>€300 Google paieška (tikslus atitikmuo: &bdquo;apskaitos programa&ldquo;, &bdquo;buhalterinė programa&ldquo;). Patikrink CPC ir nukreipimas&rarr;registracija prieš Keyword Planner prognozes.</span></li>
+      <li><span>€300 Meta (terminas/skausmas: &bdquo;VMI terminas artėja&ldquo;). Išmatuok CPC deltą ir auditorijos kokybę.</span></li>
+      <li><span>Apskaičiuokite mišrų CAC.</span></li>
+    </ol>
+    <div class="gates">
+      <div class="gate g"><h4>Sprendimas</h4><div class="cond">CAC &lt; €45 &rarr; Mastelis</div><p class="desc">Tikra atsarga žemiau operacijų linijos. Pereikite prie €1k/mėn.</p></div>
+      <div class="gate o"><h4>Sprendimas</h4><div class="cond">CAC €45&ndash;60 &rarr; Optimizuoti</div><p class="desc">Artėjate prie operacijų linijos. Taisykite piltuvėlį prieš mastelį.</p></div>
+      <div class="gate r"><h4>Sprendimas</h4><div class="cond">CAC &gt; €60 &rarr; Pakeitimas</div><p class="desc">CAC viršija operacijų liniją. Kelkite kainą, pridėkite planus arba eikite tik nemokamais kanalais.</p></div>
+    </div>
+    <div class="annot correction">
+      <span class="annot-label">Atsargiai</span>
+      Tai patikrina CAC. Churn reikalauja 150&ndash;250 klientų po 6 mėnesio statistiniam patikimumui. <strong>Neįsipareigokite €3k/mėn tol, kol stabilus churn &lt; 3% nepatvirtintas.</strong>
+    </div>
+  </div>
+</section>
+
+<section id="13">
+  <div class="container">
+    <h2><span class="num">13</span><span class="t">Operavimo doktrina</span></h2>
+    <p class="strong-p">Tai ne rinkodaros žaidimas. Tai produkto žaidimas.</p>
+    <p>Esant €6/mėn operacinei maržai, teisę leisti pinigus skelbimams užsitarnaujate po to, kai produktas užsitarnauja išlaikymą. <strong>Ne anksčiau.</strong></p>
+    <h3>1pp churn sumažinimas vertas</h3>
+    <ul class="value-list" role="list">
+      <li><span class="l">Op-maržos LTV per klientą</span><span class="v">€30&ndash;100</span><span class="zero">&mdash;</span></li>
+      <li><span class="l">Esant 1,000 klientų &mdash; viso gyvenimo marža</span><span class="v">€50k&ndash;100k</span><span class="zero">&mdash;</span></li>
+      <li><span class="l">Lygiavertis CPC optimizavimas</span><span class="v">nieko</span><span class="zero">tiek neduoda niekas</span></li>
+    </ul>
+    <h3>Prioritetų hierarchija</h3>
+    <div class="chain" role="list">
+      <span class="step">Išlaikymas</span><span class="arrow">&rarr;</span><span class="step">Konversija</span><span class="arrow">&rarr;</span><span class="step">Kaina</span><span class="arrow">&rarr;</span><span class="step">CPC</span><span class="arrow">&rarr;</span><span class="step">Išlaidos</span>
+    </div>
+    <p><strong>Operatoriaus tikslas:</strong> stabilus churn &le; 2.5% ir bendra konversija &ge; 2.5%. Pasiekite abu &mdash; verslas pradeda kvėpuoti: op-maržos LTV pasiekia €240, CAC atsarga išsiplečia iki €84, mastelis tampa saugus. Kai išlaidos pasitvirtina, €1 rezervas auga ir maržos plečiasi toliau. <strong>Praleiskite bet kurį tikslą &mdash; ir esate ant bėgimo takelio.</strong></p>
+  </div>
+</section>
+</main>
+
+<div class="cta">
+  <div class="container">
+    <p class="kicker">Verslo Grafija</p>
+    <h2><span class="num">▸</span><span class="t">Vienas kintamasis, kurio neturite</span></h2>
+    <p>Jūsų tikrasis churn. Ne pramonės vidurkiai. Jūsų kohortos išgyvenimo kreivė. Kol neišmatuojate, nežinote, ar mokamas įsigijimas apskritai apsimoka.</p>
+    <div class="lists">
+      <div>
+        <h4>Peržiūrime</h4>
+        <ul role="list">
+          <li>vartotojų įvedimas</li><li>ankstyvieji churn signalai</li><li>kohortų matematika</li><li>op-maržos LTV</li><li>lemiantis apribojimas</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Išeinate su</h4>
+        <ul role="list">
+          <li>Mastelis</li><li>Optimizuoti</li><li>Stabdyti</li>
+        </ul>
+      </div>
+    </div>
+    <a class="btn btn-dark min-touch" href="https://calendly.com/infrawei">Registruotis 30 min &rarr;</a>
+  </div>
+</div>
+
+<footer>
+  <div class="container foot-grid">
+    <div>
+      <p class="foot-brand">Verslo Grafija</p>
+      <p class="foot-tag">Mintys apie verslą. Strategija, organizacijos, produktai, knygos. Kartais parašau.</p>
+    </div>
+    <div>
+      <form class="subscribe" action="https://visa.verslografija.lt" method="get" aria-label="Prenumeruoti naujienlaiškį">
+        <input type="email" name="email" placeholder="you@example.com" required aria-label="El. paštas">
+        <button type="submit" class="btn btn-soft min-touch">Prenumeruoti</button>
+      </form>
+    </div>
+  </div>
+  <div class="container">
+    <div class="foot-meta">
+      <span>Verslo grafija &middot; 2025 &middot; v5.2</span>
+      <span>v5.2: kompasas pradžioje, vartotojų įvedimo diagnostika §06, skaičių tikslinimas &middot; v5&rarr;v5.1: €1 amortizatorius, ARR formulė, dviejų fazių išgyvenimas, Keyword Planner pagrindimas</span>
+      <a href="https://visa.verslografija.lt">Archyvas</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
