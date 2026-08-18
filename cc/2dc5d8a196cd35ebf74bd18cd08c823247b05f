@@ -1,0 +1,19 @@
+graphify-out/cache/stat-index.json
+  s_5fad6e59b2df19::t_bef3663c4b048b 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "cc2dc5d8a196cd35ebf74bd18cd08c823247b05f",
+  "prompts": {},
+  "sessions": {
+    "s_5fad6e59b2df19": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a01146-6cb1-79d9-81b7-9827b6aa90a4",
+        "model": "deepseek-v4-flash"
+      },
+      "human_author": "Marty <saint@ghost.lt>"
+    }
+  }
+}
